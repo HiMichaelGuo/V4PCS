@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-bunny"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-bunny.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-bunny-complete.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-install.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-mkdir.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-download.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-update.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-patch.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-configure.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"dataset-standford-bunny"
+		],
+		"name" : "dataset-standford-bunny"
+	}
+}

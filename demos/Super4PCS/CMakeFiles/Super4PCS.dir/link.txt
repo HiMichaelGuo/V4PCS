@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/Super4PCS.dir/super4pcs_test.o  -o Super4PCS -rdynamic -lsuper4pcs_algo -lsuper4pcs_utils 

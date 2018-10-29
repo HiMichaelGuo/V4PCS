@@ -1,0 +1,13 @@
+# Target labels
+ dataset-standford-bunny
+# Source files and their labels
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-bunny
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-bunny.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-bunny-complete.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-install.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-mkdir.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-download.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-update.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-patch.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-configure.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-bunny-prefix/src/dataset-standford-bunny-stamp/dataset-standford-bunny-build.rule

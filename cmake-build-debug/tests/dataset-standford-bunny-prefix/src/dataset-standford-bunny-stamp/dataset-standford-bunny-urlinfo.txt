@@ -1,0 +1,3 @@
+repository='external project URL'
+module='http://graphics.stanford.edu/pub/3Dscanrep/bunny.tar.gz'
+tag='MD5=232bb90cac5f2ac77140e09a59bcffe4'

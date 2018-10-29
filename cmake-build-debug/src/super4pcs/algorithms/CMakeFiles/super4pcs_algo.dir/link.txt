@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsuper4pcs_algo.a  CMakeFiles/super4pcs_algo.dir/4pcs.cc.o CMakeFiles/super4pcs_algo.dir/match4pcsBase.cc.o CMakeFiles/super4pcs_algo.dir/super4pcs.cc.o
+/usr/bin/ranlib libsuper4pcs_algo.a

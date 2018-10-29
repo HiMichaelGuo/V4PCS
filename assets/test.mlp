@@ -1,0 +1,22 @@
+<!DOCTYPE MeshLabDocument>
+<MeshLabProject>
+ <MeshGroup>
+  <MLMesh label="001.off" filename="../../../ICP/exercise_3_updated_27_11/data/transformed/001.off">
+   <MLMatrix44>
+ 1 0 0 0 
+0 1 0 0 
+0 0 1 0 
+0 0 0 1 
+</MLMatrix44>
+  </MLMesh>
+  <MLMesh label="002.off" filename="../../../ICP/exercise_3_updated_27_11/data/transformed/002.off">
+   <MLMatrix44>
+ 0.964129    0.265427 -0.00186124  0.00110793
+  -0.265409    0.964113  0.00656986    -0.04667
+ 0.00353801 -0.00584005    0.999976 -0.00586319
+          0           0           0           1
+</MLMatrix44>
+  </MLMesh>
+ </MeshGroup>
+ <RasterGroup/>
+</MeshLabProject>

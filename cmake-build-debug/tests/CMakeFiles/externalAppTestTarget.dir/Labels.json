@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/externalAppTestTarget"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/externalAppTestTarget.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/externalAppTestTarget-complete.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/externalAppTestTarget-prefix/src/externalAppTestTarget-stamp/externalAppTestTarget-install.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/externalAppTestTarget-prefix/src/externalAppTestTarget-stamp/externalAppTestTarget-mkdir.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/externalAppTestTarget-prefix/src/externalAppTestTarget-stamp/externalAppTestTarget-download.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/externalAppTestTarget-prefix/src/externalAppTestTarget-stamp/externalAppTestTarget-update.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/externalAppTestTarget-prefix/src/externalAppTestTarget-stamp/externalAppTestTarget-patch.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/externalAppTestTarget-prefix/src/externalAppTestTarget-stamp/externalAppTestTarget-configure.rule"
+		},
+		{
+			"file" : "/work/juan/proj_others/V4PCS/cmake-build-debug/tests/externalAppTestTarget-prefix/src/externalAppTestTarget-stamp/externalAppTestTarget-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"externalAppTestTarget"
+		],
+		"name" : "externalAppTestTarget"
+	}
+}

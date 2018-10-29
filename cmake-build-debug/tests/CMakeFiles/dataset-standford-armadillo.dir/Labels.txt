@@ -1,0 +1,13 @@
+# Target labels
+ dataset-standford-armadillo
+# Source files and their labels
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-armadillo
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-armadillo.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/CMakeFiles/dataset-standford-armadillo-complete.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-armadillo-prefix/src/dataset-standford-armadillo-stamp/dataset-standford-armadillo-install.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-armadillo-prefix/src/dataset-standford-armadillo-stamp/dataset-standford-armadillo-mkdir.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-armadillo-prefix/src/dataset-standford-armadillo-stamp/dataset-standford-armadillo-download.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-armadillo-prefix/src/dataset-standford-armadillo-stamp/dataset-standford-armadillo-update.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-armadillo-prefix/src/dataset-standford-armadillo-stamp/dataset-standford-armadillo-patch.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-armadillo-prefix/src/dataset-standford-armadillo-stamp/dataset-standford-armadillo-configure.rule
+/work/juan/proj_others/V4PCS/cmake-build-debug/tests/dataset-standford-armadillo-prefix/src/dataset-standford-armadillo-stamp/dataset-standford-armadillo-build.rule

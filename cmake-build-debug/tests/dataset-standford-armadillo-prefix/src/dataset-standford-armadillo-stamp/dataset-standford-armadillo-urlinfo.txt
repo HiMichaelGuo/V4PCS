@@ -1,0 +1,3 @@
+repository='external project URL'
+module='http://graphics.stanford.edu/pub/3Dscanrep/armadillo/Armadillo_scans.tar.gz'
+tag='MD5=437eafa8d3d07067e17a42c727a0c28d'
