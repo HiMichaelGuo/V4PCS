@@ -69,7 +69,11 @@ Match4PCSBase::ComputeTransformation(const std::vector<Point3D>& P,
   if (Q == nullptr) return kLargeNumber;
   if (P.empty() || Q->empty()) return kLargeNumber;
 
-  init(P, *Q, sampler);
+  //todo clean
+  std::map<std::vector<int>, std::vector<std::pair<int,int> > > PPFMap;
+  int max_count_ppf;
+
+  init(P, *Q, sampler,PPFMap, max_count_ppf);
 
   if (best_LCP_ != Scalar(1.))
     Perform_N_steps(number_of_trials_, transformation, Q, v);
@@ -85,12 +89,44 @@ Match4PCSBase::ComputeTransformation(const std::vector<Point3D>& P,
   return best_LCP_;
 }
 
+template <typename Sampler>
+Match4PCSBase::Scalar
+Match4PCSBase::ComputeTransformation_V4PCS(const std::vector<Point3D>& P,
+                                               std::vector<Point3D>* Q,
+                                                const Sampler& sampler,
+                                               Eigen::Isometry3d &bestPose,
+                                               std::vector< std::pair <Eigen::Isometry3d, float> > &allPose,
+                                               std::map<std::vector<int>, std::vector<std::pair<int,int> > > &PPFMap, int max_count_ppf, std::vector<int> &registered_points)
+{
+
+    if (Q == nullptr) return kLargeNumber;
+
+
+    init(P, *Q, sampler,  PPFMap, max_count_ppf);
+    std::cout << "init finished!"<<std::endl;
+
+    Perform_N_steps_V4pcs(Q, allPose);
+
+    if(best_lcp_index != -1){
+        bestPose = allPose[best_lcp_index].first;
+        registered_points = this->registered_indices;
+    }
+    else{
+        std::cout << "returning identity" << std::endl;
+        bestPose.matrix().setIdentity();
+    }
+
+    return best_LCP_;
+}
+
 
 
 template <typename Sampler>
 void Match4PCSBase::init(const std::vector<Point3D>& P,
                          const std::vector<Point3D>& Q,
-                         const Sampler& sampler){
+                         const Sampler& sampler,
+                         std::map<std::vector<int>, std::vector<std::pair<int,int> > > &PPFMap,
+                         int max_count_ppf){
     start_time = clock();
 
 #ifdef TEST_GLOBAL_TIMINGS
@@ -137,6 +173,8 @@ void Match4PCSBase::init(const std::vector<Point3D>& P,
         Log<LogLevel::ErrorReport>( "(Q) More samples requested than available: use whole cloud" );
         sampled_Q_3D_ = Q;
     }
+    std::cout << "Super4PCS::Match4PCSBase::init:sampled_P_3D_size: " << sampled_P_3D_.size() << std::endl;
+    std::cout << "Super4PCS::Match4PCSBase::init:sampled_Q_3D_size: " << sampled_Q_3D_.size() << std::endl;
 
 
     // center points around centroids
@@ -218,6 +256,10 @@ void Match4PCSBase::init(const std::vector<Point3D>& P,
 
     best_LCP_ = Verify(transform_);
     Log<LogLevel::Verbose>( "Initial LCP: ", best_LCP_ );
+
+    this->registered_indices.clear();
+    this->PPFMap = &PPFMap;
+    this->max_count_ppf = max_count_ppf;
 }
 
 

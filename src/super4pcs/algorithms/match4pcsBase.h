@@ -138,6 +138,14 @@ public:
                           const Sampler& sampler = Sampler(),
                           const Visitor& v = Visitor());
 
+    template <typename Sampler = DefaultSampler>
+    Scalar
+    ComputeTransformation_V4PCS(const std::vector<Point3D>& P,
+                                         std::vector<Point3D>* Q,
+                                         const Sampler& sampler,
+                                         Eigen::Isometry3d &bestPose,
+                                         std::vector< std::pair <Eigen::Isometry3d, float> > &allPose,
+                                         std::map<std::vector<int>, std::vector<std::pair<int,int> > > &PPFMap, int max_count_ppf, std::vector<int> &registered_points);
 
 protected:
     /// Number of trials. Every trial picks random base from P.
@@ -335,11 +343,17 @@ protected:
     Initialize(const std::vector<Point3D>& P,
                const std::vector<Point3D>& Q) = 0;
 
-    template <typename Sampler>
-    void init(const std::vector<Point3D>& P,
-              const std::vector<Point3D>& Q,
-              const Sampler& sampler);
+    //template <typename Sampler>
+    //void init(const std::vector<Point3D>& P,
+    //          const std::vector<Point3D>& Q,
+    //          const Sampler& sampler);
 
+     template <typename Sampler>
+     void init(const std::vector<Point3D>& P,
+                                 const std::vector<Point3D>& Q,
+                                 const Sampler& sampler,
+                                 std::map<std::vector<int>, std::vector<std::pair<int,int> > > &PPFMap,
+                                 int max_count_ppf);
     /// Selects a quadrilateral from P and returns the corresponding invariants
     /// and point indices. Returns true if a quadrilateral has been found, false
     /// otherwise.

@@ -77,6 +77,7 @@ int main(int argc, char **argv) {
   // prepare matcher ressources
   Match4PCSOptions options;
   Match4PCSBase::MatrixType mat (Match4PCSBase::MatrixType::Identity());
+  Eigen::Isometry3d bestPose;
 
   if(! Demo::setOptionsFromArgs(options, logger))
   {
@@ -110,7 +111,17 @@ int main(int argc, char **argv) {
       if (use_super4pcs) {
           MatchSuper4PCS matcher(options, logger);
           logger.Log<Utils::Verbose>( "Use Super4PCS" );
-          score = matcher.ComputeTransformation(set1, &set2, mat, sampler, visitor);
+
+          std::vector< std::pair <Eigen::Isometry3d, float> > hypothesisSet;
+          std::map<std::vector<int>, std::vector<std::pair<int,int> > > PPFMap;
+          int max_count_ppf = 10;// todo not used??
+          std::vector<int> registered_points;
+
+          //score = matcher.ComputeTransformation(set1, &set2, mat, sampler, visitor);
+          score = matcher.ComputeTransformation_V4PCS(set1, &set2, sampler, bestPose, hypothesisSet, PPFMap, max_count_ppf, registered_points);
+
+          std::cout << "score is "<< score <<std::endl;
+
 
           if(! outputSampled1.empty() ){
               logger.Log<Utils::Verbose>( "Exporting Sampled cloud 1 to ",
@@ -140,7 +151,7 @@ int main(int argc, char **argv) {
       else {
           Match4PCS matcher(options, logger);
           logger.Log<Utils::Verbose>( "Use old 4PCS" );
-          score = matcher.ComputeTransformation(set1, &set2, mat, sampler, visitor);
+          //score = matcher.ComputeTransformation(set1, &set2, mat, sampler, visitor);
       }
 
   }
@@ -160,14 +171,14 @@ int main(int argc, char **argv) {
                               " to ",
                               input1.c_str(),
                               ": \n",
-                              mat);
+                              bestPose.matrix());
 
 
   if(! outputMat.empty() ){
       logger.Log<Utils::Verbose>( "Exporting Matrix to ",
                                   outputMat.c_str(),
                                   "..." );
-      iomananger.WriteMatrix(outputMat, mat.cast<double>(), IOManager::POLYWORKS);
+      iomananger.WriteMatrix(outputMat, bestPose.matrix(), IOManager::POLYWORKS);
       logger.Log<Utils::Verbose>( "Export DONE" );
   }
 

@@ -209,7 +209,10 @@ bool Match4PCSBase::SelectRandomTriangle(int &base1, int &base2, int &base3) {
 
       // Try fixed number of times retaining the best other two.
       Scalar best_wide = 0.0;
+      //std::cout << "kNumberOfDiameterTrials"<<kNumberOfDiameterTrials << std::endl;
       for (int i = 0; i < kNumberOfDiameterTrials; ++i) {
+          //std::cout << i << "the triangle trials " << std::endl;
+          //std::cout << number_of_points <<std::endl;
         // Pick and compute
         const int second_point = randomGenerator_() % number_of_points;
         const int third_point = randomGenerator_() % number_of_points;
@@ -302,6 +305,7 @@ bool Match4PCSBase::SelectQuadrilateral(Scalar& invariant1, Scalar& invariant2,
   // Try fix number of times.
   while (current_trial < kNumberOfDiameterTrials) {
     // Select a triangle if possible. otherwise fail.
+      std::cout << "current tiral in SelectQuadrilateral "<< current_trial <<std::endl;
     if (!SelectRandomTriangle(base1, base2, base3)){
       return false;
     }
@@ -376,13 +380,20 @@ bool Match4PCSBase::SelectTetrahedronBase(Scalar& invariant1, Scalar& invariant2
         const Scalar too_small = std::pow(max_base_diameter_ * kBaseTooSmall, 2);
         base1 = base2 = base3 = base4 = -1;
 
+
+        //std::cout <<"kNumberOfDiameterTrials"<<kNumberOfDiameterTrials <<std::endl;
+        std::cout << sampled_P_3D_.size() <<" sampled_P_3D"<<std::endl;
+
         while (current_trial < kNumberOfDiameterTrials) {
             // Select a triangle if possible. otherwise fail.
-            if (!SelectRandomTriangle(base1, base2, base3)){
+            if (!SelectRandomTriangle(base1, base2, base3))
+            {
+                std::cout <<" select random triangel failed!"<<std::endl;
                 return false;
             }
 
             float max_volume = 0;
+
             for (int ii=0; ii< 100; ii++){
                 int number_of_points = sampled_P_3D_.size();
                 int fourth_point = rand() % number_of_points;
@@ -392,6 +403,8 @@ bool Match4PCSBase::SelectTetrahedronBase(Scalar& invariant1, Scalar& invariant2
                 const VectorType v2 = sampled_P_3D_[base3].pos() - sampled_P_3D_[base1].pos();
                 const VectorType v3 = sampled_P_3D_[fourth_point].pos() - sampled_P_3D_[base1].pos();
 
+                //std::cout << v1 << v2 << v3 << std::endl;
+
                 float vol = abs((v1.cross(v2)).dot(v3))/6;
 
                 if (vol > max_volume) {
@@ -399,10 +412,11 @@ bool Match4PCSBase::SelectTetrahedronBase(Scalar& invariant1, Scalar& invariant2
                     max_volume = vol;
                 }
             }
-
+            //std::cout << current_trial<<" trial, max_volume is "<<max_volume <<" in selecttetrahedronbase"<<std::endl;
             if(base4 != -1) return true;
             current_trial++;
         }
+        std::cout << base1<<" "<<base2 <<" "<<base3<<" "<<base4<<std::endl;
 
         return false;
 }
@@ -904,7 +918,9 @@ bool Match4PCSBase::Perform_N_steps_V4pcs(std::vector<GlobalRegistration::Point3
 
         // Step 1: Base Selection
         clock_t base_selection_start = clock();
+        std::cout <<" in perform N steps v4pcs " << max_number_of_bases_ << std::endl;
         while(baseSet.size() < max_number_of_bases_) {
+            std::cout << baseSet.size() <<"operMode"<< operMode << std::endl;
             Scalar invariant1, invariant2;
             std::vector<int> baseIdx(4,0);
             float baseProbability;
