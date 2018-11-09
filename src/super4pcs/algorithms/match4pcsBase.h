@@ -63,6 +63,8 @@
 namespace GlobalRegistration{
 
 
+
+
 class BaseGraph{
     public:
 
@@ -146,6 +148,8 @@ public:
                                          Eigen::Isometry3d &bestPose,
                                          std::vector< std::pair <Eigen::Isometry3d, float> > &allPose,
                                          std::map<std::vector<int>, std::vector<std::pair<int,int> > > &PPFMap, int max_count_ppf, std::vector<int> &registered_points);
+
+    void debug_outputTetrahedron(const std::string& name,std::vector<Quadrilateral> congruent_quads, std::vector<Point3D> & pointset);
 
 protected:
     /// Number of trials. Every trial picks random base from P.

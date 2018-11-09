@@ -205,15 +205,19 @@ public:
           VectorType segment2 = (q.pos() - p.pos()).normalized();
           if (std::acos(segment1.dot(segment2)) <= options_.max_angle * M_PI / 180.0) {
               pairs->emplace_back(j, i);
+              //pairs->emplace_back(Q_[j].ind(), Q_[i].ind());
           }
 
           if (std::acos(segment1.dot(- segment2)) <= options_.max_angle * M_PI / 180.0) {
               // Add ordered pair.
               pairs->emplace_back(i, j);
+              pairs->emplace_back(Q_[i].ind(), Q_[j].ind());
           }
       }else {
           pairs->emplace_back(j, i);
           pairs->emplace_back(i, j);
+          //pairs->emplace_back(Q_[j].ind(), Q_[i].ind());
+          //pairs->emplace_back(Q_[i].ind(), Q_[j].ind());
       }
     }
   }

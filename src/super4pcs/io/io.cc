@@ -150,14 +150,18 @@ IOManager::ReadObj(const char *filename,
   float x, y, z;
   v.clear();
   tris.clear();
+  int verticesnum = 0;
   while (!f.eof()) {
     f.getline(str, 1023);
     char ch[128];
     sscanf(str, "%s %*s", ch);
     if (strcmp(ch, "v") == 0) {
       sscanf(str, "%s %f %f %f", ch, &x, &y, &z);
-      v.emplace_back(x, y, z);
-      v[v.size() - 1].set_rgb(Point3D::VectorType::Zero());
+
+      v.emplace_back(x, y, z, verticesnum);
+      v[verticesnum].set_rgb(Point3D::VectorType::Zero());
+      verticesnum++;
+
     } else if (strcmp(ch, "vt") == 0) {
       Eigen::Matrix2f tex_coord;
       sscanf(str, "%s %f %f", ch, &tex_coord.coeffRef(0), &tex_coord.coeffRef(1));

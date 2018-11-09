@@ -206,7 +206,7 @@ readBinary1Body (const std::string & filename,
             almostsafefread (v, 4, numOfVertexProperties, in);
         if (bigEndian == true)
             bigLittleEndianSwap (v, numOfVertexProperties);
-        vertex.emplace_back( v[0],v[1],v[2] );
+        vertex.emplace_back( v[0],v[1],v[2],i );
 
         if (numOfVertexProperties == 6){
             if (haveColor){
@@ -314,7 +314,7 @@ readASCII1Body (const std::string & filename,
             for (unsigned int j = 0;  j < numOfVertexProperties;  j++)
                 almostsafefscanf<1> (in, "%f", &v[j]);
 
-        vertex.emplace_back( v[0],v[1],v[2] );
+        vertex.emplace_back( v[0],v[1],v[2],i );
 
         if (numOfVertexProperties == 6){
             if (haveColor){

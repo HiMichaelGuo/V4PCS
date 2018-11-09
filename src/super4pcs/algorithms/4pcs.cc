@@ -84,7 +84,7 @@ bool Match4PCS::FindCongruentQuadrilaterals(
   for (size_t i = 0; i < P_pairs.size(); ++i) {
     const VectorType& p1 = sampled_Q_3D_[P_pairs[i].first].pos();
     const VectorType& p2 = sampled_Q_3D_[P_pairs[i].second].pos();
-    kdtree.add(p1 + invariant1 * (p2-p1));
+    kdtree.add(p1 + invariant1 * (p2-p1), i);
   }
   kdtree.finalize();
 

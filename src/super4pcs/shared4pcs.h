@@ -64,19 +64,23 @@ class Point3D {
   using VectorType = Eigen::Matrix<Scalar, 3, 1>;
 
   inline Point3D(Scalar x, Scalar y, Scalar z) : pos_({ x, y, z}) {}
+  inline Point3D(Scalar x, Scalar y, Scalar z, int ind) : pos_({ x, y, z}), ind_(ind) {}
   inline Point3D(const Point3D& other):
       pos_(other.pos_),
       normal_(other.normal_),
-      rgb_(other.rgb_) {}
+      rgb_(other.rgb_) ,
+      ind_(other.ind_){}
   template<typename Scalar>
   explicit inline Point3D(const Eigen::Matrix<Scalar, 3, 1>& other):
-      pos_({ other(0), other(1), other(2) }){
+      pos_({ other(0), other(1), other(2) }), ind_(-1){
   }
 
   inline Point3D() {}
   inline VectorType& pos() { return pos_ ; }
   inline const VectorType& pos() const { return pos_ ; }
   inline const VectorType& rgb() const { return rgb_; }
+  inline const int index() const { return ind_; }
+
 
   inline const VectorType& normal() const { return normal_; }
   inline void set_rgb(const VectorType& rgb) {
@@ -91,13 +95,18 @@ class Point3D {
   }
   inline bool hasColor() const { return rgb_.squaredNorm() > Scalar(0.001); }
 
+  inline bool hasvalidIndex() const {return ind_!=-1;}
+
   Scalar& x() { return pos_.coeffRef(0); }
   Scalar& y() { return pos_.coeffRef(1); }
   Scalar& z() { return pos_.coeffRef(2); }
+  int& ind() {return ind_;}
+
 
   Scalar x() const { return pos_.coeff(0); }
   Scalar y() const { return pos_.coeff(1); }
   Scalar z() const { return pos_.coeff(2); }
+  int  ind() const {return ind_;}
 
 
 
@@ -108,6 +117,9 @@ class Point3D {
   VectorType normal_{0.0f, 0.0f, 0.0f};
   /// Color.
   VectorType rgb_{-1.0f, -1.0f, -1.0f};
+  /// index
+  int ind_ = -1;
+
 };
 
 
@@ -181,7 +193,8 @@ struct Match4PCSOptions {
 
 private:
   /// Threshold on the value of the target function (LCP, see the paper).
-  /// It is used to terminate the process once we reached this value.
+  /// It is used to terminate the process once
+  /// we reached this value.
   Scalar terminate_threshold = 1.0;
   /// Estimated overlap between P and Q. This is the fraction of points in P that
   /// may have corresponding point in Q. It's being used to estimate the number

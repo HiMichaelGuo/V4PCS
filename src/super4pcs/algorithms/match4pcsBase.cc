@@ -233,6 +233,7 @@ bool Match4PCSBase::SelectRandomTriangle(int &base1, int &base2, int &base3) {
           base3 = third_point;
         }
       }
+    //std::cout << "best_wide"<<best_wide << std::endl;
       return base1 != -1 && base2 != -1 && base3 != -1;
 }
 
@@ -382,9 +383,10 @@ bool Match4PCSBase::SelectTetrahedronBase(Scalar& invariant1, Scalar& invariant2
 
 
         //std::cout <<"kNumberOfDiameterTrials"<<kNumberOfDiameterTrials <<std::endl;
-        std::cout << sampled_P_3D_.size() <<" sampled_P_3D"<<std::endl;
+        //std::cout << sampled_P_3D_.size() <<" sampled_P_3D"<<std::endl;
 
         while (current_trial < kNumberOfDiameterTrials) {
+        //while (current_trial < 1) {
             // Select a triangle if possible. otherwise fail.
             if (!SelectRandomTriangle(base1, base2, base3))
             {
@@ -405,7 +407,9 @@ bool Match4PCSBase::SelectTetrahedronBase(Scalar& invariant1, Scalar& invariant2
 
                 //std::cout << v1 << v2 << v3 << std::endl;
 
-                float vol = abs((v1.cross(v2)).dot(v3))/6;
+                float vol = fabs((v1.cross(v2)).dot(v3));
+                //std::cout << fabs(v3.norm()) << fabs((v1.cross(v2)).norm())<<std::endl;
+                //std::cout << "ii: " << ii << "volum: " << vol << " ";
 
                 if (vol > max_volume) {
                     base4 = fourth_point;
@@ -416,7 +420,7 @@ bool Match4PCSBase::SelectTetrahedronBase(Scalar& invariant1, Scalar& invariant2
             if(base4 != -1) return true;
             current_trial++;
         }
-        std::cout << base1<<" "<<base2 <<" "<<base3<<" "<<base4<<std::endl;
+        //std::cout << base1<<" "<<base2 <<" "<<base3<<" "<<base4<<std::endl;
 
         return false;
 }
@@ -512,6 +516,14 @@ bool Match4PCSBase::FindCongruentQuadrilateralsV4PCS(std::vector<std::pair<int, 
         addToConnectivityPresenceMap(pairs5, distance5, connectivity_map_5);
         addToConnectivityPresenceMap(pairs6, distance6, connectivity_map_6);
 
+        //debug
+        //for(auto& kv: connectivity_map_4)
+        //{
+        //    std::cout << kv.first.first <<" "<< kv.first.second << std::endl;
+        //}
+        //std::cout << connectivity_map_4.size() << " pairs in map4"<<std::endl;
+        // debug end
+
         quadrilaterals->clear();
         std::unordered_set<std::tuple<int, int, int> > base_3;
         base_3.clear();
@@ -524,11 +536,19 @@ bool Match4PCSBase::FindCongruentQuadrilateralsV4PCS(std::vector<std::pair<int, 
             if (it != connectivity_map_2.end()) {
                 std::vector<int> vertices = it->second;
                 for(int j=0; j < vertices.size(); j++){
-                    std::map<std::pair<int, int>, int >::iterator conn_it4 = connectivity_map_4.find(std::make_pair(vertices[j], pairs1[i].second));
+
+                    std::map<std::pair<int, int>, int >::iterator conn_it4 = connectivity_map_4.find(std::make_pair( vertices[j],pairs1[i].second));
                     if (conn_it4 != connectivity_map_4.end())
+                    {
+                        //std::cout <<"found pairs in map4"<< vertices[j] <<" "<<pairs1[i].second << std::endl;
+
                         base_3.insert(std::make_tuple(pairs1[i].first, pairs1[i].second, vertices[j]));
+                    }
+
+
                 }
             }
+           // std::cout << base_3.size() <<" base 3 size. "<< std::endl;
         }
 
         // std::cout << "distances: " << distance1 << " " << distance2 << " " << distance3 << " " << distance4 << " " << distance5 << " " << distance6 << std::endl;
@@ -568,7 +588,7 @@ void Match4PCSBase::initKdTree(){
   kd_tree_ = GlobalRegistration::KdTree<Scalar>(number_of_points);
 
   for (size_t i = 0; i < number_of_points; ++i) {
-    kd_tree_.add(sampled_P_3D_[i].pos());
+    kd_tree_.add(sampled_P_3D_[i].pos(), sampled_P_3D_[i].index());
   }
   kd_tree_.finalize();
 }
@@ -705,6 +725,7 @@ bool Match4PCSBase::ComputeRigidTransformation(
         Scalar max_angle,
         Eigen::Ref<MatrixType> transform,
         Scalar& rms_,
+
         bool computeScale ) const {
 
   rms_ = kLargeNumber;
@@ -920,7 +941,7 @@ bool Match4PCSBase::Perform_N_steps_V4pcs(std::vector<GlobalRegistration::Point3
         clock_t base_selection_start = clock();
         std::cout <<" in perform N steps v4pcs " << max_number_of_bases_ << std::endl;
         while(baseSet.size() < max_number_of_bases_) {
-            std::cout << baseSet.size() <<"operMode"<< operMode << std::endl;
+            //std::cout << baseSet.size() <<"operMode"<< operMode << std::endl;
             Scalar invariant1, invariant2;
             std::vector<int> baseIdx(4,0);
             float baseProbability;
@@ -944,10 +965,20 @@ bool Match4PCSBase::Perform_N_steps_V4pcs(std::vector<GlobalRegistration::Point3
 
         // Step 3: Congruent Set Extraction
         clock_t cse_start = clock();
+        int basenum  = 0;
         for (auto base_it: baseSet) {
             ExtractCongruentSet(base_it);
 
-            int max_sampled_csets = 100;
+            ///debug
+            if(base_it->congruent_quads.size()>0)
+            {
+                std::string name = "debug_baseit"+std::to_string(basenum)+".txt";
+                debug_outputTetrahedron(name, base_it->congruent_quads, sampled_Q_3D_);
+            }
+
+          std::cout << "Number of congruentset: " << base_it->congruent_quads.size() << std::endl;
+
+            int max_sampled_csets = 50;
             if(base_it->congruent_quads.size() < max_sampled_csets) {
                 for (int jj = 0; jj < base_it->congruent_quads.size(); jj++)
                     ComputeRigidTransformFromCongruentPair(base_it->baseIds_[0], base_it->baseIds_[1],
@@ -966,6 +997,7 @@ bool Match4PCSBase::Perform_N_steps_V4pcs(std::vector<GlobalRegistration::Point3
             }
 
             base_it++;
+            basenum++;
         }
         congruent_set_extraction = float( clock () - cse_start ) /  CLOCKS_PER_SEC;
 
@@ -1014,6 +1046,13 @@ bool Match4PCSBase::Perform_N_steps_V4pcs(std::vector<GlobalRegistration::Point3
               << congruent_set_extraction << " " << congruent_set_verification
               << " " << allPose.size() << std::endl;
         pFile.close();
+
+        if(best_lcp_index!=-1)
+        {
+            for (size_t i = 0; i < Q->size(); ++i) {
+                (*Q)[i].pos() = (best_transform * (*Q)[i].pos().homogeneous()).head<3>();
+            }
+        }
 
         return true;
     }
@@ -1083,6 +1122,41 @@ Match4PCSBase::Verify(const Eigen::Ref<const MatrixType> &mat) const {
   return Scalar(good_points) / Scalar(number_of_points);
 }
 
+void debug_outputpairs(const std::string& name,std::vector<std::pair<int, int>> pairs)      
+{                                                                                           
+                                                                                            
+    std::ofstream pFile;                                                                    
+    pFile.open (name);
+    for(auto & p: pairs)                                                                    
+    {                                                                                       
+        pFile << p.first << " " << p.second << std::endl;                                   
+    }                                                                                       
+
+    //pFile << selection_time[ii] << std::endl;
+    pFile.close();                                                                          
+                                                                                            
+                                                                                            
+}
+
+void Match4PCSBase::debug_outputTetrahedron(const std::string& name,std::vector<Quadrilateral> congruent_quads, std::vector<Point3D> & pointset)
+{
+     std::ofstream pFile;                                    
+     pFile.open (name);
+     for(auto & p: congruent_quads)
+     {
+         int v1 = pointset[p[0]].ind();
+         int v2 = pointset[p[1]].ind();
+         int v3 = pointset[p[2]].ind();
+         int v4 = pointset[p[3]].ind();
+         pFile << "f" << " " <<v1<<" " <<v2<<" "<<v3<<std::endl;
+         pFile << "f" << " " <<v2<< " "<<v3<<" "<<v4<<std::endl;
+     }
+     //pFile << selection_time[ii] << std::endl;             
+     pFile.close();                                          
+                                                             
+
+}
+
 bool Match4PCSBase::ExtractCongruentSet(BaseGraph* baseIt) {
 
         Scalar invariant1, invariant2;
@@ -1120,6 +1194,8 @@ bool Match4PCSBase::ExtractCongruentSet(BaseGraph* baseIt) {
         if(operMode == 0 || operMode == 2) {
             ExtractPairs(distance1, normal_angle1, distance_factor * options_.delta, 0,
                          1, &pairs1, ppf_1);
+
+            debug_outputpairs("debug_pairs1.txt",pairs1);
 
             ExtractPairs(distance6, normal_angle6, distance_factor * options_.delta, 2,
                          3, &pairs6, ppf_6);
@@ -1175,6 +1251,11 @@ bool Match4PCSBase::ExtractCongruentSet(BaseGraph* baseIt) {
                          2, &pairs4, ppf_4);
             ExtractPairs(distance5, normal_angle5, distance_factor * options_.delta, 1,
                          3, &pairs5, ppf_5);
+            debug_outputpairs("debug_pairs2.txt",pairs2);
+            debug_outputpairs("debug_pairs3.txt",pairs3);
+            debug_outputpairs("debug_pairs4.txt",pairs4);
+            debug_outputpairs("debug_pairs5.txt",pairs5);
+            debug_outputpairs("debug_pairs6.txt",pairs6);
 
             if (pairs1.size() == 0 || pairs2.size() == 0 ||pairs3.size() == 0 ||pairs4.size() == 0 ||pairs5.size() == 0 ||pairs6.size() == 0) {
                 return false;
@@ -1190,10 +1271,12 @@ bool Match4PCSBase::ExtractCongruentSet(BaseGraph* baseIt) {
                                                   &baseIt->congruent_quads)) {
                 return false;
             }
+
         }
 
         return true;
     }
+
 
     BaseGraph::BaseGraph(std::vector<int> baseIds, float invariant1, float invariant2, float baseProbability){
         baseIds_[0] = baseIds[0];

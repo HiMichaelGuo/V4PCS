@@ -79,6 +79,7 @@ private:
             uint64_t n = maxpoints;
             voxels_.resize(n);
             data_.resize(n, NO_DATA);
+            std::cout << "hashtable number "<< n << std::endl;
         }
         template <typename Point>
         uint64_t& operator[](const Point& p) {

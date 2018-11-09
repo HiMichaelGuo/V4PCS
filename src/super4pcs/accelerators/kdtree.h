@@ -176,6 +176,7 @@ public:
         inline QueryNode(unsigned int id) : nodeId(id) {}
         //! id of the next node
         unsigned int nodeId;
+
         //! squared distance to the next node
         Scalar sq;
     };
@@ -206,15 +207,15 @@ public:
 
     //! Add a new vertex in the KdTree
     template <class VectorDerived>
-    inline void add( const VectorDerived &p ){
+    inline void add( const VectorDerived &p, const int ind ){
          // this is ok since the memory has been reserved at construction time
         mPoints.push_back(p);
-        mIndices.push_back(mIndices.size());
+        mIndices.push_back(ind);
         mAABB.extend(p);
     }
 
-    inline void add(Scalar *position){
-        add(Eigen::Map< Eigen::Matrix<Scalar, 3, 1> >(position));
+    inline void add(Scalar *position, const int ind){
+        add(Eigen::Map< Eigen::Matrix<Scalar, 3, 1> >(position), ind);
     }
 
     //! Finalize the creation of the KdTree

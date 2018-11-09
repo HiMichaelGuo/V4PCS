@@ -146,8 +146,25 @@ void Match4PCSBase::init(const std::vector<Point3D>& P,
     sampled_Q_3D_.clear();
 
     // prepare P
+
+
     if (P.size() > options_.sample_size){
         sampler(P, options_, sampled_P_3D_);
+        //debug_outputsampled("debug_sampled_P.txt", sampled_P_3D_);
+        //void debug_outputsampled(const std::string & name, const std::vector<Point3D> & pointset)
+        {
+
+            std::ofstream pFile;
+            pFile.open ("debug_sampled_P.txt",
+                        std::ofstream::out | std::ofstream::app);
+            for(const auto & p: sampled_P_3D_)
+            {
+                pFile << p.ind() << std::endl;
+            }
+            //pFile << selection_time[ii] << std::endl;
+            pFile.close();
+        }
+        std::cout <<" in init : P size "<< P.size() <<" sampled P size: "<< sampled_P_3D_.size()<<std::endl;
     }
     else
     {
@@ -161,12 +178,14 @@ void Match4PCSBase::init(const std::vector<Point3D>& P,
     if (Q.size() > options_.sample_size){
         std::vector<Point3D> uniform_Q;
         sampler(Q, options_, uniform_Q);
-
+        std::cout <<" in init :Q size "<< Q.size() <<" uniform_Q size: "<< uniform_Q.size()<<std::endl;
 
         std::shuffle(uniform_Q.begin(), uniform_Q.end(), randomGenerator_);
         size_t nbSamples = std::min(uniform_Q.size(), options_.sample_size);
         auto endit = uniform_Q.begin(); std::advance(endit, nbSamples );
         std::copy(uniform_Q.begin(), endit, std::back_inserter(sampled_Q_3D_));
+
+        std::cout <<" in init : Q size "<< Q.size() <<" sampled Q size: "<< sampled_Q_3D_.size()<<std::endl;
     }
     else
     {
